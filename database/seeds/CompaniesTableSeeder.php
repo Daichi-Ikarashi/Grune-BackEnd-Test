@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Company;
 
-class DatabaseSeeder extends Seeder
+class CompaniesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UnimatDBSeeder::class);
-        $this->call(CompaniesTableSeeder::class);
+        factory(Company::class, 5)->create();
     }
 }
