@@ -60,5 +60,5 @@
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <!-- Tabulator js -->
 <script type="text/javascript" src="{{ asset('js/3rdparty/tabulator.min.js') }}"></script>
-<script src="{{ asset('js/backend/users/index.js') }}"></script>
+<script src="{{ asset('js/backend/companies/index.js') }}"></script>
 @endsection

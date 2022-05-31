@@ -147,7 +147,8 @@ $(function () {
 
   $("#datalist").tabulator(
     "setData",
-    rootUrl + "/api/admin/users/getUsersTabular"
+    // 変更！！！！！！！！！！！！
+    rootUrl + "api/company/companies/getCompaniesTabular"
   );
   $("#datalist").tabulator("setLocale", "ja-jp");
 
