@@ -1,10 +1,10 @@
 $(function () {
   // init: side menu for current page
-  $("li#menu-users").addClass("menu-open active");
-  $("li#menu-users").find(".treeview-menu").css("display", "block");
-  $("li#menu-users")
+  $("li#menu-companies").addClass("menu-open active");
+  $("li#menu-companies").find(".treeview-menu").css("display", "block");
+  $("li#menu-companies")
     .find(".treeview-menu")
-    .find(".list-users a")
+    .find(".list-companies a")
     .addClass("sub-menu-active");
 
   // call tabulator function and create tables
@@ -75,28 +75,42 @@ $(function () {
       {
         title: "ID",
         field: "id",
-        width: 45,
+        width: 60,
         headerFilter: "input",
         sorter: "number",
         headerFilterPlaceholder: " ",
       },
       {
-        title: "Username",
-        field: "username",
-        minwidth: 200,
+        title: "Name",
+        field: "name",
+        minwidth: 150,
         headerFilter: "input",
         headerFilterPlaceholder: " ",
       },
       {
-        title: "Name",
-        field: "display_name",
+        title: "Email",
+        field: "email",
         width: 150,
         headerFilter: "input",
         headerFilterPlaceholder: " ",
       },
       {
-        title: "Created At",
-        field: "created_at",
+        title: "Postcode",
+        field: "postcode",
+        width: 150,
+        headerFilter: "input",
+        headerFilterPlaceholder: " ",
+      },
+      {
+        title: "Prefecture",
+        field: "prefecture_id",
+        width: 150,
+        headerFilter: "input",
+        headerFilterPlaceholder: " ",
+      },
+      {
+        title: "Address",
+        field: "local",
         width: 150,
         headerFilter: "input",
         headerFilterPlaceholder: " ",
@@ -147,8 +161,7 @@ $(function () {
 
   $("#datalist").tabulator(
     "setData",
-    // 変更！！！！！！！！！！！！
-    rootUrl + "api/company/companies/getCompaniesTabular"
+    rootUrl + "/api/company/companies/getCompaniesTabular"
   );
   $("#datalist").tabulator("setLocale", "ja-jp");
 
