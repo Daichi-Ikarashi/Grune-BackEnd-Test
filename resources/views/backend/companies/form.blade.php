@@ -38,7 +38,7 @@
                         </div>
                     </div>
 
-                    @if($company->page_type == 'create')
+                    
                     <div id="form-email" class="form-group">
                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2 col-header">
                             <span class="label label-danger label-required">Required</span>
@@ -95,7 +95,7 @@
                             <strong class="field-title">Street Address</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('streetAddress', $company->streetAddress, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('streetAddress', $company->street_address, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                     </div>
 
@@ -104,7 +104,7 @@
                             <strong class="field-title">Business Hour</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('businessHour', $company->businessHour, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('businessHour', $company->business_hour, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@
                             <strong class="field-title">Regular Holiday</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('regularHoliday', $company->regularHoliday, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('regularHoliday', $company->regular_holiday, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                     </div>
 
@@ -149,7 +149,7 @@
                             <strong class="field-title">Lisence Number</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('lisenceNumber', $company->lisenceNumber, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('lisenceNumber', $company->license_number, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                     </div>
 
@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     
-                    @endif
+                    
 
                     <div id="form-button" class="form-group no-border">
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center" style="margin-top: 20px;">

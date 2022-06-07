@@ -12,7 +12,7 @@ class ApiCompaniesController extends Controller {
      *
      */
     public function getCompaniesTabular() {
-        $companies = Company::orderBy('id', 'desc')->get();
+        $companies = Company::orderBy('id', 'asc')->get();
         return response()->json($companies);
     }
 

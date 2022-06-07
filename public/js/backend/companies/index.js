@@ -32,10 +32,10 @@ $(function () {
       row.getData()["id"] +
       '" action="' +
       rootUrl +
-      '/admin/delete/" method="get">' +
+      '/company/delete/" method="get">' +
       '<a class="btn btn-primary" href="' +
       rootUrl +
-      "/admin/edit/" +
+      "/company/edit/" +
       row.getData()["id"] +
       '" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;' +
       '<input type="hidden" name="id" value="' +
