@@ -124,4 +124,25 @@ class CompanyController extends Controller
             return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_UPDATE_MESSAGE'));
         }
     }
+
+    public function delete(Request $request) {
+        try {
+            // Get user by id
+            $company = Company::find($request->get('id'));
+            // If to-delete Company is not the one currently logged in, proceed with delete attempt
+            if (Auth::id() != $company->id) {
+
+                // Delete company
+                $company->delete();
+
+                // If delete is successful
+                return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_DELETE_MESSAGE'));
+            }
+            // Send error if logged in user trying to delete himself
+            return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_DELETE_SELF_MESSAGE'));
+        } catch (Exception $e) {
+            // If delete is failed
+            return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_DELETE_MESSAGE'));
+        }
+    }
 }

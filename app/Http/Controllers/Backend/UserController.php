@@ -160,5 +160,4 @@ class UserController extends Controller {
             return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_DELETE_MESSAGE'));
         }
     }
-
 }
