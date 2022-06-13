@@ -103,7 +103,7 @@ $(function () {
       },
       {
         title: "Prefecture",
-        field: "prefecture_id",
+        field: "prefecture.display_name",
         width: 150,
         headerFilter: "input",
         headerFilterPlaceholder: " ",

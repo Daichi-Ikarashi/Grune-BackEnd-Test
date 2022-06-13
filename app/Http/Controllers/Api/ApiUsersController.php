@@ -15,5 +15,4 @@ class ApiUsersController extends Controller {
         $users = User::orderBy('id', 'desc')->get();
         return response()->json($users);
     }
-
 }

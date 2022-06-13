@@ -34,11 +34,10 @@
                             <strong class="field-title">Name</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('name', $company->name, array('class' => 'form-control validate[required, minSize[4], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}    
+                            {{ Form::text('name', $company->name, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[10], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                     </div>
-
-                    
+                        
                     <div id="form-email" class="form-group">
                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2 col-header">
                             <span class="label label-danger label-required">Required</span>
@@ -161,12 +160,10 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
                             {{ Form::file('image', $company->image, array('placeholder' => ' ', 'class' => 'custom-file-input validate[required, minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
-                            <p class="">画像をアップロードして下さい(推奨サイズ；1280px × 720px・容量は5MBまで)</p>
+                            <p class="">画像をアップロードして下さい(推奨サイズ 1280px × 720px・容量は5MBまで)</p>
                         </div>
                     </div>
                     
-                    
-
                     <div id="form-button" class="form-group no-border">
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center" style="margin-top: 20px;">
                             <button type="submit" name="submit" id="send" class="btn btn-primary">Submit</button>

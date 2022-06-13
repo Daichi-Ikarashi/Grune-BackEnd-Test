@@ -12,7 +12,8 @@ class ApiCompaniesController extends Controller {
      *
      */
     public function getCompaniesTabular() {
-        $companies = Company::orderBy('id', 'asc')->get();
+        $companies = Company::with('prefecture')->orderBy('id', 'asc')->get();
+        // ここでPref ID Apiに投げて名前を返してもらい、それを返す
         return response()->json($companies);
     }
 

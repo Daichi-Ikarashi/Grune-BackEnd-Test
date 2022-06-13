@@ -37,9 +37,8 @@ class CompanyController extends Controller
         $company->form_action = $this->getRoute() . '.create';
         $company->page_title = 'Company Add Page';
         $company->page_type = 'create';
-        $address = '';
         return view('backend.companies.form', [
-            'company' => $company, 'address' => $address
+            'company' => $company
         ]);
     }
 
