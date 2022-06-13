@@ -16,4 +16,30 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip({
     container: "body",
   });
+
+  $("#searchBtn").click(() => {
+    console.log($("#postcode").val());
+    const postcode = $("#postcode").val();
+    $.ajax({
+      type: "get",
+      url: "/getPostcodeData/" + postcode,
+      dataType: "json",
+      data: {
+        postcode: postcode,
+      },
+    })
+      .done((res) => {
+        $("#city").val(res[0].city);
+        $("#local").val(res[0].local);
+
+        $("select[name='prefecture_id'] option")
+          .filter(function () {
+            return $(this).text() === res[0].prefecture;
+          })
+          .prop("selected", true);
+      })
+      .fail((err) => {
+        console.log(err.statusText);
+      });
+  });
 });

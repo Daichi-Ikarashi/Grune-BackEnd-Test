@@ -34,7 +34,7 @@
                             <strong class="field-title">Name</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('name', $company->name, array('class' => 'form-control validate[required, regex[/^[\w-]*$/], alpha_num, maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('name', $company->name, array('class' => 'form-control validate[required, minSize[4], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}    
                         </div>
                     </div>
 
@@ -54,9 +54,10 @@
                             <span class="label label-danger label-required">Required</span>
                             <strong class="field-title">Postcode</strong>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('postcode', $company->postcode, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[6], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-content">
+                            {{ Form::text('postcode', $company->postcode, array('placeholder' => ' ', 'id' => 'postcode', 'class' => 'form-control validate[required, minSize[6], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
+                        <button type="button" name="searchBtn" id="searchBtn" class="btn btn-primary">Submit</button>
                     </div>
 
                     <div id="form-prefecture" class="form-group">
@@ -66,7 +67,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
                             @inject('getPrefectures', 'App\Http\Controllers\Api\ApiPrefecturesController')
-                            {{ Form::select('prefecture_id', $getPrefectures->getPrefectures(), old('prefecture_id'), ['class' => 'form-control', 'data-prompt-position' => 'bottomLeft:0,11']) }}               
+                            {{ Form::select('prefecture_id', $getPrefectures->getPrefectures(), old('prefecture_id'), ['id' => 'prefecture', 'class' => 'form-control', 'data-prompt-position' => 'bottomLeft:0,11']) }}               
                         </div>
                     </div>
 
@@ -76,7 +77,7 @@
                             <strong class="field-title">City</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('city', $company->city, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('city', $company->city, array('placeholder' => ' ', 'id' => 'city', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                     </div>
 
@@ -86,7 +87,7 @@
                             <strong class="field-title">Local</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            {{ Form::text('local', $company->local, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('local', $company->local, array('placeholder' => ' ', 'id' => 'local', 'class' => 'form-control validate[required, minSize[3], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                     </div>
 
@@ -159,8 +160,8 @@
                             <strong class="field-title">Image</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            <span>画像をアップロードして下さい(推奨サイズ；1280px × 720px・容量は5MBまで)</span>
-                            {{ Form::text('image', $company->image, array('placeholder' => ' ', 'class' => 'form-control validate[required, minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::file('image', $company->image, array('placeholder' => ' ', 'class' => 'custom-file-input validate[required, minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            <p class="">画像をアップロードして下さい(推奨サイズ；1280px × 720px・容量は5MBまで)</p>
                         </div>
                     </div>
                     

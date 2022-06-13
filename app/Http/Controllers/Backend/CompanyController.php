@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Postcode;
 use Config;
 
 class CompanyController extends Controller
@@ -36,8 +37,9 @@ class CompanyController extends Controller
         $company->form_action = $this->getRoute() . '.create';
         $company->page_title = 'Company Add Page';
         $company->page_type = 'create';
+        $address = '';
         return view('backend.companies.form', [
-            'company' => $company
+            'company' => $company, 'address' => $address
         ]);
     }
 
@@ -48,23 +50,35 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request) {
-        $newCompany = $request->all();
+        if ($request->has('submit')) {
+            $newCompany = $request->all();
 
-        // Validate input, indicate this is 'create' function
-        // $this->validator($newCompany, 'create')->validate();
+            // Validate input, indicate this is 'create' function
+            // $this->validator($newCompany, 'create')->validate();
 
-        try {
-            $company = Company::create($newCompany);
-            if ($company) {
-                // Create is successful, back to list
-                return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_CREATE_MESSAGE'));
-            } else {
+            // image file
+            // 拡張子を取得
+            $extension = $request->file("image")->getClientOriginalExtension();
+
+            //保存のファイル名を構築
+            $filenameToStore = "image_.".$extension;
+
+            $path = $request->file("image")->storeAs("public/uploads/files/", $filenameToStore);
+            $newCompany['image'] = 'public/uploads/files/'.$filenameToStore;
+
+            try {
+                $company = Company::create($newCompany);
+                if ($company) {
+                    // Create is successful, back to list
+                    return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_CREATE_MESSAGE'));
+                } else {
+                    // Create is failed
+                    return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_CREATE_MESSAGE'));
+                }
+            } catch (Exception $e) {
                 // Create is failed
                 return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_CREATE_MESSAGE'));
             }
-        } catch (Exception $e) {
-            // Create is failed
-            return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_CREATE_MESSAGE'));
         }
     }
 
@@ -97,19 +111,10 @@ class CompanyController extends Controller
         try {
             $currentCompany = Company::find($request->get('id'));
             if ($currentCompany) {
-                // If password input is empty this means we take the old password value as is from DB
-                // if (!$newUser['password']) {
-                //     $newUser['password'] = $currentUser['password'];
-                // }
                 // Validate input only after getting password, because if not validator will keep complaining that password does not meet validation rules
                 // Hashed password from DB will always have length of 60 characters so it will pass validation
                 // Also indicate this is 'update' function
                 //$this->validator($newCompany, 'update')->validate();
-
-                // Only hash the password if it needs to be hashed
-                // if (Hash::needsRehash($newUser['password'])) {
-                //     $newUser['password'] = bcrypt($newUser['password']);
-                // }
 
                 // Update company
                 $currentCompany->update($newCompany);
