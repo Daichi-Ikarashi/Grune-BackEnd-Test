@@ -49,35 +49,37 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request) {
-        if ($request->has('submit')) {
-            $newCompany = $request->all();
+        $newCompany = $request->all();
+        // Validate input, indicate this is 'create' function
+        // $this->validator($newCompany, 'create')->validate();
 
-            // Validate input, indicate this is 'create' function
-            // $this->validator($newCompany, 'create')->validate();
-
-            // image file
+        try {
+            $company = Company::create($newCompany);
+            
+            $id = $company["id"];
             // 拡張子を取得
-            $extension = $request->file("image")->getClientOriginalExtension();
+            $extension = $request->image->getClientOriginalExtension();
 
             //保存のファイル名を構築
-            $filenameToStore = "image_.".$extension;
+            $filenameToStore = "image_".$id.".".$extension;
 
-            $path = $request->file("image")->storeAs("public/uploads/files/", $filenameToStore);
-            $newCompany['image'] = 'public/uploads/files/'.$filenameToStore;
-
-            try {
-                $company = Company::create($newCompany);
-                if ($company) {
-                    // Create is successful, back to list
-                    return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_CREATE_MESSAGE'));
-                } else {
-                    // Create is failed
-                    return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_CREATE_MESSAGE'));
-                }
-            } catch (Exception $e) {
-                // Create is failed
+            $path = $request->image->storeAs("public/uploads/files", $filenameToStore);
+            //$company["image"] = $path;
+            $company->fill([
+                'id' => $id,
+                'image' => $path
+            ]);
+            $company->save();
+            //dd($newData);
+            if ($company) {
+                // Create is successful, back to list
+                return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_CREATE_MESSAGE'));
+            } else {                    // Create is failed
                 return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_CREATE_MESSAGE'));
             }
+        } catch (Exception $e) {
+            // Create is failed
+            return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_CREATE_MESSAGE'));
         }
     }
 
@@ -90,9 +92,10 @@ class CompanyController extends Controller
     public function edit($id) {
         $company = Company::find($id);
         $company->form_action = $this->getRoute() . '.update';
-        $company->page_title = 'Company Edit Page';
+        $company->page_title = 'User Edit Page';
         // Add page type here to indicate that the form.blade.php is in 'edit' mode
         $company->page_type = 'edit';
+        
         return view('backend.companies.form', [
             'company' => $company
         ]);
@@ -107,11 +110,21 @@ class CompanyController extends Controller
      */
     public function update(Request $request) {
         $newCompany = $request->all();
+        if ($request->image) {
+            // image file
+            // 拡張子を取得
+            $extension = $request->image->getClientOriginalExtension();
+
+            $id = $request->get('id');
+            //保存のファイル名を構築
+            $filenameToStore = "image_".$id.".".$extension;
+
+            $path = $request->image->storeAs("public/uploads/files", $filenameToStore);
+            $newCompany['image'] = $path;
+        }
         try {
             $currentCompany = Company::find($request->get('id'));
             if ($currentCompany) {
-                // Validate input only after getting password, because if not validator will keep complaining that password does not meet validation rules
-                // Hashed password from DB will always have length of 60 characters so it will pass validation
                 // Also indicate this is 'update' function
                 //$this->validator($newCompany, 'update')->validate();
 
@@ -131,7 +144,7 @@ class CompanyController extends Controller
 
     public function delete(Request $request) {
         try {
-            // Get user by id
+            // Get company by id
             $company = Company::find($request->get('id'));
             // If to-delete Company is not the one currently logged in, proceed with delete attempt
             if (Auth::id() != $company->id) {
