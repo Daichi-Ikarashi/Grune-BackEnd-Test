@@ -22,6 +22,31 @@ class CompanyController extends Controller
         return 'company';
     }
 
+    /**
+     * Validator for company
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function validator(array $data, $type) {
+        // Determine if password validation is required depending on the calling
+        return Validator::make($data, [
+                'name' => 'required|min:3|max:100',
+                'email' => 'required|min:5|max:100',
+                'postcode' => 'required|min:7|max:100',
+                'prefecture_id' => 'required|int|max:100',
+                'city' => 'required|min:2|max:100',
+                'local' => 'required|min:2|max:100',
+                'street_address' => 'max:100',
+                'business_hour' => 'max:100',
+                'regular_holiday' => 'max:100',
+                'phone' => 'max:100',
+                'fax' => 'max:100',
+                'url' => 'max:100',
+                'license_number' => 'max:100',
+                'image' => 'required|mimes:png,PNG,jpg|max:5120',
+        ]);
+    }
+
     public function index() {
         return view('backend.companies.index');
     }
@@ -51,7 +76,7 @@ class CompanyController extends Controller
     public function create(Request $request) {
         $newCompany = $request->all();
         // Validate input, indicate this is 'create' function
-        // $this->validator($newCompany, 'create')->validate();
+        $this->validator($newCompany, 'create')->validate();
 
         try {
             $company = Company::create($newCompany);
@@ -59,10 +84,8 @@ class CompanyController extends Controller
             $id = $company["id"];
             // 拡張子を取得
             $extension = $request->image->getClientOriginalExtension();
-
             //保存のファイル名を構築
             $filenameToStore = "image_".$id.".".$extension;
-
             $path = $request->image->storeAs("public/uploads/files", $filenameToStore);
             //$company["image"] = $path;
             $company->fill([
@@ -70,7 +93,6 @@ class CompanyController extends Controller
                 'image' => $path
             ]);
             $company->save();
-            //dd($newData);
             if ($company) {
                 // Create is successful, back to list
                 return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_CREATE_MESSAGE'));
