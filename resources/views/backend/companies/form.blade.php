@@ -159,12 +159,12 @@
                             <strong class="field-title">Image</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
-                            @if($company->page_type == 'update')
+                            @if($company->page_type == 'create')
+                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[required, minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            <img id="preview" src="{{ asset('img/no-image/no-image.jpg') }}" alt="" width="150">          
+                            @else
                             {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                             <img id="preview" src="{{ \Storage::url($company->image) }}" alt="" width="150">
-                            @else
-                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[required]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
-                            <img id="preview" src="{{ asset('img/no-image/no-image.jpg') }}" alt="" width="150">          
                             @endif
                             <!-- <p class="">画像をアップロードして下さい(推奨サイズ 1280px x 720px・容量は5MBまで)</p> -->
                             
