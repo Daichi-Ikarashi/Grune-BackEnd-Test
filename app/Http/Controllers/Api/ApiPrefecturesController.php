@@ -11,6 +11,7 @@ class ApiPrefecturesController extends Controller {
      * Return the contents of Prefecture array in select box form
      *
      */
+    // API to get the data for the prefecture selection box.
     public function getPrefectures() {
         $prefs = Prefecture::orderBy('id','asc')->get();
         $list = array();

@@ -17,8 +17,8 @@ $(function () {
     container: "body",
   });
 
+  //Automatically enter the address with the entered Postcode
   $("#searchBtn").click(() => {
-    console.log($("#postcode").val());
     const postcode = $("#postcode").val();
     $.ajax({
       type: "get",
@@ -43,6 +43,7 @@ $(function () {
       });
   });
 
+  // Preview the selected image file
   $("[name='image']").on("change", function (e) {
     let reader = new FileReader();
     reader.onload = function (e) {

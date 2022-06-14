@@ -65,6 +65,7 @@
                             <strong class="field-title">Prefecture</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
+                            <!--create select box use Prefecture table -->
                             @inject('getPrefectures', 'App\Http\Controllers\Api\ApiPrefecturesController')
                             {{ Form::select('prefecture_id', $getPrefectures->getPrefectures(), old('prefecture_id', $company->prefecture_id), ['id' => 'prefecture', 'class' => 'form-control', 'data-prompt-position' => 'bottomLeft:0,11']) }}               
                         </div>
@@ -159,11 +160,13 @@
                             <strong class="field-title">Image</strong>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
+                            <!-- page_type "create" required image file -->
                             @if($company->page_type == 'create')
-                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[required, minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[required, minSize[2], maxSize[255]]', 'accept' => '.jpg,.png,.gif,.svg,.bmp', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                             <img id="preview" src="{{ asset('img/no-image/no-image.jpg') }}" alt="" width="150">          
+                            <!-- page_type "update" not required image file -->
                             @else
-                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[minSize[2], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[minSize[2], maxSize[255]]', 'accept' => '.jpg,.png,.gif,.svg,.bmp', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                             <img id="preview" src="{{ \Storage::url($company->image) }}" alt="" width="150">
                             @endif
                             <!-- <p class="">画像をアップロードして下さい(推奨サイズ 1280px x 720px・容量は5MBまで)</p> -->

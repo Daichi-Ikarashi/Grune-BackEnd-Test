@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Postcode;
@@ -28,8 +29,9 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected function validator(array $data, $type) {
-        // Determine if password validation is required depending on the calling
-        return Validator::make($data, [
+        // create:image file required. update:image file not required
+        if ($type === 'create') {
+            return Validator::make($data, [
                 'name' => 'required|min:3|max:100',
                 'email' => 'required|min:5|max:100',
                 'postcode' => 'required|min:7|max:100',
@@ -43,8 +45,26 @@ class CompanyController extends Controller
                 'fax' => 'max:100',
                 'url' => 'max:100',
                 'license_number' => 'max:100',
-                'image' => 'required|mimes:png,PNG,jpg|max:5120',
-        ]);
+                'image' => 'required|image|max:5120'
+            ]);
+        } if ($type === 'update') {
+            return Validator::make($data, [
+                'name' => 'required|min:3|max:100',
+                'email' => 'required|min:5|max:100',
+                'postcode' => 'required|min:7|max:100',
+                'prefecture_id' => 'required|int|max:100',
+                'city' => 'required|min:2|max:100',
+                'local' => 'required|min:2|max:100',
+                'street_address' => 'max:100',
+                'business_hour' => 'max:100',
+                'regular_holiday' => 'max:100',
+                'phone' => 'max:100',
+                'fax' => 'max:100',
+                'url' => 'max:100',
+                'license_number' => 'max:100',
+                'image' => 'image|max:5120'
+            ]);
+        }
     }
 
     public function index() {
@@ -80,14 +100,16 @@ class CompanyController extends Controller
 
         try {
             $company = Company::create($newCompany);
-            
+            // after create, get id and save image file
+            // save file name "image_{id}.extension"
             $id = $company["id"];
-            // 拡張子を取得
+            // get extension
             $extension = $request->image->getClientOriginalExtension();
-            //保存のファイル名を構築
+            // Specifying the file name
             $filenameToStore = "image_".$id.".".$extension;
+            // store image file
             $path = $request->image->storeAs("public/uploads/files", $filenameToStore);
-            //$company["image"] = $path;
+            // save file path in company table by fill,save method
             $company->fill([
                 'id' => $id,
                 'image' => $path
@@ -132,24 +154,24 @@ class CompanyController extends Controller
      */
     public function update(Request $request) {
         $newCompany = $request->all();
+        // Also indicate this is 'update' function
+        $this->validator($newCompany, 'update')->validate();
+        // If new files are added, change image file
         if ($request->image) {
-            // image file
-            // 拡張子を取得
             $extension = $request->image->getClientOriginalExtension();
-
             $id = $request->get('id');
-            //保存のファイル名を構築
             $filenameToStore = "image_".$id.".".$extension;
-
+            // First, Check for the existence of existing files and delete them if they exist.
+            if (Storage::exists('public/uploads/files/'.$filenameToStore)) {
+                Storage::delete('public/uploads/files/'.$filenameToStore);
+            }
+            // Save a new One
             $path = $request->image->storeAs("public/uploads/files", $filenameToStore);
             $newCompany['image'] = $path;
         }
         try {
             $currentCompany = Company::find($request->get('id'));
             if ($currentCompany) {
-                // Also indicate this is 'update' function
-                //$this->validator($newCompany, 'update')->validate();
-
                 // Update company
                 $currentCompany->update($newCompany);
                 // If update is successful
@@ -171,7 +193,8 @@ class CompanyController extends Controller
             // If to-delete Company is not the one currently logged in, proceed with delete attempt
             if (Auth::id() != $company->id) {
 
-                // Delete company
+                // Specify the path and delete
+                Storage::delete($company->image);
                 $company->delete();
 
                 // If delete is successful

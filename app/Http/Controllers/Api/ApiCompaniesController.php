@@ -11,9 +11,9 @@ class ApiCompaniesController extends Controller {
      * Return the contents of Company table in tabular form
      *
      */
+    // Returns the data registered in the Company table as JSON data.
     public function getCompaniesTabular() {
         $companies = Company::with('prefecture')->orderBy('id', 'asc')->get();
-        // ここでPref ID Apiに投げて名前を返してもらい、それを返す
         return response()->json($companies);
     }
 

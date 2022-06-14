@@ -12,10 +12,9 @@ class ApiPostcodesController extends Controller {
      * Return the contents of Postcode array in some forms
      *
      */
+    // Get detailed address from Postcode
     public function getPostcodeData($postcode) {
-        $address = Postcode::whereIn('postcode', [$postcode])->get();
-        //$city = $address['city'];
-        
+        $address = Postcode::whereIn('postcode', [$postcode])->get();        
         return $address;
     }
 }
