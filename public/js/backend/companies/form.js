@@ -50,5 +50,7 @@ $(function () {
       $("#preview").attr("src", e.target.result);
     };
     reader.readAsDataURL(e.target.files[0]);
+    // 選択したら消す
+    $("#image-alert").hide();
   });
 });

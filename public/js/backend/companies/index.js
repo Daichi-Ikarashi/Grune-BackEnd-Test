@@ -75,7 +75,7 @@ $(function () {
       {
         title: "ID",
         field: "id",
-        width: 60,
+        width: 50,
         headerFilter: "input",
         sorter: "number",
         headerFilterPlaceholder: " ",
@@ -83,7 +83,7 @@ $(function () {
       {
         title: "Name",
         field: "name",
-        minwidth: 150,
+        minwidth: 80,
         headerFilter: "input",
         headerFilterPlaceholder: " ",
       },
@@ -97,21 +97,21 @@ $(function () {
       {
         title: "Postcode",
         field: "postcode",
-        width: 150,
+        width: 100,
         headerFilter: "input",
         headerFilterPlaceholder: " ",
       },
       {
         title: "Prefecture",
         field: "prefecture.display_name",
-        width: 150,
+        width: 120,
         headerFilter: "input",
         headerFilterPlaceholder: " ",
       },
       {
         title: "Address",
         field: "local",
-        width: 150,
+        width: 200,
         headerFilter: "input",
         headerFilterPlaceholder: " ",
       },

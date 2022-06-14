@@ -163,10 +163,12 @@
                             <!-- page_type "create" required image file -->
                             @if($company->page_type == 'create')
                             {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[required, minSize[2], maxSize[255]]', 'accept' => '.jpg,.png,.gif,.svg,.bmp', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            <p class="text-danger" id="image-alert">画像をアップロードして下さい（推奨サイズ:1280px×720px・容量は5MBまで）</p>
                             <img id="preview" src="{{ asset('img/no-image/no-image.jpg') }}" alt="" width="150">          
                             <!-- page_type "update" not required image file -->
                             @else
                             {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[minSize[2], maxSize[255]]', 'accept' => '.jpg,.png,.gif,.svg,.bmp', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            <p class="text-danger" id="image-alert">画像をアップロードして下さい（推奨サイズ:1280px×720px・容量は5MBまで）</p>
                             <img id="preview" src="{{ \Storage::url($company->image) }}" alt="" width="150">
                             @endif
                             <!-- <p class="">画像をアップロードして下さい(推奨サイズ 1280px x 720px・容量は5MBまで)</p> -->
