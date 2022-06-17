@@ -34,8 +34,8 @@ class CompanyController extends Controller
             return Validator::make($data, [
                 'name' => 'required|min:3|max:100',
                 'email' => 'required|min:5|max:100',
-                'postcode' => 'required|min:7|max:100',
-                'prefecture_id' => 'required|int|max:100',
+                'postcode' => 'required|min:7|max:7',
+                'prefecture_id' => 'required|int',
                 'city' => 'required|min:2|max:100',
                 'local' => 'required|min:2|max:100',
                 'street_address' => 'max:100',
@@ -51,8 +51,8 @@ class CompanyController extends Controller
             return Validator::make($data, [
                 'name' => 'required|min:3|max:100',
                 'email' => 'required|min:5|max:100',
-                'postcode' => 'required|min:7|max:100',
-                'prefecture_id' => 'required|int|max:100',
+                'postcode' => 'required|min:7|max:7',
+                'prefecture_id' => 'required|int',
                 'city' => 'required|min:2|max:100',
                 'local' => 'required|min:2|max:100',
                 'street_address' => 'max:100',
@@ -136,7 +136,7 @@ class CompanyController extends Controller
     public function edit($id) {
         $company = Company::find($id);
         $company->form_action = $this->getRoute() . '.update';
-        $company->page_title = 'User Edit Page';
+        $company->page_title = 'Compnay Edit Page';
         // Add page type here to indicate that the form.blade.php is in 'edit' mode
         $company->page_type = 'edit';
         
@@ -190,18 +190,12 @@ class CompanyController extends Controller
         try {
             // Get company by id
             $company = Company::find($request->get('id'));
-            // If to-delete Company is not the one currently logged in, proceed with delete attempt
-            if (Auth::id() != $company->id) {
+            // Specify the path and delete
+            Storage::delete($company->image);
+            $company->delete();
 
-                // Specify the path and delete
-                Storage::delete($company->image);
-                $company->delete();
-
-                // If delete is successful
-                return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_DELETE_MESSAGE'));
-            }
-            // Send error if logged in user trying to delete himself
-            return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_DELETE_SELF_MESSAGE'));
+            // If delete is successful
+            return redirect()->route($this->getRoute())->with('success', Config::get('const.SUCCESS_DELETE_MESSAGE'));
         } catch (Exception $e) {
             // If delete is failed
             return redirect()->route($this->getRoute())->with('error', Config::get('const.FAILED_DELETE_MESSAGE'));

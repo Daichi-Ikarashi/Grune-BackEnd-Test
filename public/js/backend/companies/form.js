@@ -12,6 +12,18 @@ $(function () {
     scroll: false,
   });
 
+  $("#send").click(() => {
+    console.log("click");
+    let file = $("#imageUpload");
+    console.log(file);
+    console.log(file.val());
+    if (file.val() != "") {
+      console.log("OK");
+    } else {
+      console.log("BAD!!!");
+    }
+  });
+
   // init: show tooltip on hover
   $('[data-toggle="tooltip"]').tooltip({
     container: "body",
@@ -50,7 +62,19 @@ $(function () {
       $("#preview").attr("src", e.target.result);
     };
     reader.readAsDataURL(e.target.files[0]);
-    // 選択したら消す
-    $("#image-alert").hide();
+    // file size check Less than 5MB
+    let fileSize = $(this).prop("files")[0].size;
+    const limitSize = 1024 * 1024 * 5;
+    if (fileSize > limitSize) {
+      $("#image-alert").removeClass("text-success");
+      $("#image-alert").addClass("text-danger");
+      $("#image-alert").text(
+        "注意：ファイルサイズが5MBを超えています。アップロードできません"
+      );
+    } else {
+      $("#image-alert").removeClass("text-danger");
+      $("#image-alert").addClass("text-success");
+      $("#image-alert").text("アップロード可能");
+    }
   });
 });

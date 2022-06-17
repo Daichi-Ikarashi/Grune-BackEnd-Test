@@ -54,7 +54,7 @@
                             <strong class="field-title">Postcode</strong>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-content">
-                            {{ Form::text('postcode', old('postcode', $company->postcode), array('placeholder' => ' ', 'id' => 'postcode', 'class' => 'form-control validate[required, minSize[7], maxSize[255]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::text('postcode', old('postcode', $company->postcode), array('placeholder' => ' ', 'id' => 'postcode', 'class' => 'form-control validate[required, minSize[7], maxSize[7]]', 'data-prompt-position' => 'bottomLeft:0,11')) }}
                         </div>
                         <button type="button" name="searchBtn" id="searchBtn" class="btn btn-primary">Submit</button>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
                             <!--create select box use Prefecture table -->
                             @inject('getPrefectures', 'App\Http\Controllers\Api\ApiPrefecturesController')
-                            {{ Form::select('prefecture_id', $getPrefectures->getPrefectures(), old('prefecture_id', $company->prefecture_id), ['id' => 'prefecture', 'class' => 'form-control', 'data-prompt-position' => 'bottomLeft:0,11']) }}               
+                            {{ Form::select('prefecture_id', $getPrefectures->getPrefectures(), old('prefecture_id', $company->prefecture_id), ['id' => 'prefecture', 'class' => 'form-control validate[required]', 'data-prompt-position' => 'bottomLeft:0,11']) }}               
                         </div>
                     </div>
 
@@ -162,16 +162,16 @@
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 col-content">
                             <!-- page_type "create" required image file -->
                             @if($company->page_type == 'create')
-                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[required, minSize[2], maxSize[255]]', 'accept' => '.jpg,.png,.gif,.svg,.bmp', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::file('image', array('id' => 'imageUpload', 'class' => 'custom-file-input validate[required]', 'data-prompt-position' => 'bottomLeft:0,18')) }}
                             <p class="text-danger" id="image-alert">画像をアップロードして下さい（推奨サイズ:1280px×720px・容量は5MBまで）</p>
-                            <img id="preview" src="{{ asset('img/no-image/no-image.jpg') }}" alt="" width="150">          
+                            <img id="preview" src="{{ asset('img/no-image/no-image.jpg') }}" alt="" width="300" maxheigh="400">
                             <!-- page_type "update" not required image file -->
                             @else
-                            {{ Form::file('image', null, array('id' => 'imageUpload', 'class' => 'custom-file-input validate[minSize[2], maxSize[255]]', 'accept' => '.jpg,.png,.gif,.svg,.bmp', 'data-prompt-position' => 'bottomLeft:0,11')) }}
+                            {{ Form::file('image', array('id' => 'imageUpload', 'class' => 'custom-file-input', 'data-prompt-position' => 'bottomLeft:0,18')) }}
                             <p class="text-danger" id="image-alert">画像をアップロードして下さい（推奨サイズ:1280px×720px・容量は5MBまで）</p>
-                            <img id="preview" src="{{ \Storage::url($company->image) }}" alt="" width="150">
+                            <img id="preview" src="{{ asset('storage/'.substr($company->image, 7)) }}" alt="" width="300" maxheigh="400">
                             @endif
-                            <!-- <p class="">画像をアップロードして下さい(推奨サイズ 1280px x 720px・容量は5MBまで)</p> -->
+                            <!-- <p class="">画像をアップロードして下さい(推奨サイズ 1280px x 720px・容量は5MBまで)</p> --> 
                             
                         </div>
                     </div>
