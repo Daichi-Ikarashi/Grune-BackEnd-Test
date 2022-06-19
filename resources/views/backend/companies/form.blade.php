@@ -171,8 +171,6 @@
                             <p class="text-danger" id="image-alert">画像をアップロードして下さい（推奨サイズ:1280px×720px・容量は5MBまで）</p>
                             <img id="preview" src="{{ asset('storage/'.substr($company->image, 7)) }}" alt="" width="300" maxheigh="400">
                             @endif
-                            <!-- <p class="">画像をアップロードして下さい(推奨サイズ 1280px x 720px・容量は5MBまで)</p> --> 
-                            
                         </div>
                     </div>
                     

@@ -136,7 +136,7 @@ class CompanyController extends Controller
     public function edit($id) {
         $company = Company::find($id);
         $company->form_action = $this->getRoute() . '.update';
-        $company->page_title = 'Compnay Edit Page';
+        $company->page_title = 'Company Edit Page';
         // Add page type here to indicate that the form.blade.php is in 'edit' mode
         $company->page_type = 'edit';
         
